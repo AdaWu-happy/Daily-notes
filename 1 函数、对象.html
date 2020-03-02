@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <div>
+        <div>
+            <ul>
+                <li>先看懂语法、再看懂功能</li>
+                <li>
+                    <ul>
+                        <li>函数对象：函数对象：将函数作为对象使用，简称函数对象，不能简称为对象</li>
+                        <li>实例对象：new 函数产生的对象（执行构造函数）</li>
+                    </ul>
+                </li>
+                <li>()前面是函数</li>
+                <li>.前面是对象</li>
+            </ul>
+        </div>
+
+        <div id="test">
+            <ul>
+                <li>回调函数：没有调用，但是会执行的，通过函数指针调用的函数，通俗理解就是参数是函数的函数，进一步的，根据参数执行的先后顺序划分了同步和异步回调</li>
+                <li>回调函数的两种类型：同步回调、异步回调</li>
+                <ul>
+                    <li>同步回调：</li>
+                    <ul>
+                        <li>
+                            理解：立即执行，完全执行完了才结束，不会放入回调队列中
+                        </li>
+                        <li>
+                            例子：遍历数组相关的回调函数 / Promise的excutor函数
+                        </li>
+                    </ul>
+                </ul>
+
+                <ul>
+                    <li>异步回调：</li>
+                    <ul>
+                        <li>
+                            理解：不会立即执行，会放入回调队列中将来执行
+                        </li>
+                        <li>
+                            例子：定时器回调 / ajax回调 / Promise的成功 | 失败的回调
+                        </li>
+                    </ul>
+                </ul>
+            </ul>
+        </div>
+    </div>
+    <script>
+        // 栗子
+        console.log(123)
+        function Fn(name) {
+            this.name = name
+            this.sayName = function () {
+                console.log(this.name)
+            }
+        }
+
+        const fn = new Fn('a')  //Fn是构造函数，fn是对象实例
+        fn.sayName()            // a
+        const res = Fn('b')     //Fn是普通函数调用, res是函数返回值
+        console.log(res)        // undefined
+
+
+        // call函数可以用来调用另一个对象的方法（包括构造函数）
+        Fn.call({ name: 'c' }) //Fn是函数对象
+        var bird = {
+            fly: function () {
+                console.log(this.name + ' can fly.')
+            }
+        }
+        var eagle = {
+            name: 'eagle'
+        }
+        bird.fly.call(eagle)  //eagle can fly
+
+        /*
+            工厂模式
+            可以通过在函数内构建一个对象并返回的方法，
+            使得通过普通的函数调用也能得到一个对象
+        */
+
+        function Person(name) {
+            var p = new Object()
+            p.name = name
+            p.getName = function () {
+                console.log(p.name)
+            }
+            return p
+        }
+
+        var p1 = new Person('zhangsan')
+        var p2 = Person('lisi')
+
+        p1.getName()  //zhangsan
+        p2.getName()  //lisi
+
+        // $('#test') // jQuery 函数
+        // $.get('#test') // jQuery 函数对象
+
+        // 同步回调
+        const arr = [1, 2, 3]
+        arr.forEach(item => {  //遍历回调
+            console.log(item)     //不进入回调队列，立刻执行
+        })
+        console.log('forEach之后')  //先输出1 2 3
+
+        // 异步回调
+        setTimeout(() => {
+            console.log('timeout callback()') //这个函数进入回调队列排队
+        }, 0)
+        //总是执行完下面的代码，最后才执行回调队列里面的函数
+        console.log('setTimeout()之后') //最后才输出 timeout callback()
+    </script>
+</body>
+
+</html>
