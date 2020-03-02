@@ -141,7 +141,7 @@
             }
         ).catch(reason => {
             console.log('onRejected1()', reason)
-            return new Promise(() => { })  //返回一个pending的promise 中断promise链,一直处于pendding状态，不会有成功或者失败，所以不会往下执行
+            return new Promise(() => { })  //返回一个pending的promise 中断promise链,一直处于pending状态，不会有成功或者失败，所以不会往下执行
         }).then(
             value => { console.log('onResolved4()', value) },
             reason => { console.log('onRejected4()', reason) }
